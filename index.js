@@ -1,73 +1,72 @@
-// index.js
+require('dotenv').config();  // Load .env variables
+
 const express = require("express");
 const mongoose = require("mongoose");
-
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
-// ====== Middleware ======
-app.use(express.urlencoded({ extended: true })); // parse form data
+// Middleware
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.set("view engine", "ejs"); // EJS templates
+app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-// ====== MongoDB Connection ======
-mongoose.connect(
-  "mongodb+srv://mahdi83777:Mahdi321123@cluster0.luwhldd.mongodb.net/?appName=Cluster0",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-)
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 .then(() => console.log("MongoDB connected ✅"))
 .catch(err => console.log("MongoDB connection error:", err));
 
-// ====== Mongoose Schema ======
+// Schema & Model
 const expenseSchema = new mongoose.Schema({
   item: String,
   category: String,
   amount: Number
 });
-
 const Expense = mongoose.model("Expense", expenseSchema);
 
-// ====== Routes ======
+// Routes
 
-// Home page - show all expenses
+// Home page
 app.get("/", async (req, res) => {
   const expenses = await Expense.find();
   res.render("index", { expenses });
 });
 
-// Add expense (from form)
+// Add Expense
 app.post("/add-expense", async (req, res) => {
   const { item, category, amount } = req.body;
   await new Expense({ item, category, amount }).save();
   res.redirect("/");
 });
 
-// Delete expense
+// Delete Expense
 app.get("/delete/:id", async (req, res) => {
   await Expense.findByIdAndDelete(req.params.id);
   res.redirect("/");
 });
 
-// Edit form
+// Edit Expense
 app.get("/edit/:id", async (req, res) => {
   const expense = await Expense.findById(req.params.id);
   res.render("edit", { expense });
 });
 
-// Update expense
 app.post("/edit/:id", async (req, res) => {
   const { item, category, amount } = req.body;
   await Expense.findByIdAndUpdate(req.params.id, { item, category, amount });
   res.redirect("/");
 });
 
-// Test route for server running
+// Test route
 app.get("/ping", (req, res) => {
   res.send("Expense Tracker API is running 🚀");
 });
 
-// ====== Start Server ======
+// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
