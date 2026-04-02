@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "expense-tracker",
   "version": "1.0.0",
   "description": "Simple Expense Tracker App with Node.js, Express, MongoDB, and EJS",
@@ -13,3 +14,21 @@
     "dotenv": "^16.3.1"
   }
 }
+=======
+  "name": "mahdi83777",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "mongoose": "^8.23.0"
+  }
+}
+>>>>>>> 29a7ee963a042238c4946aa5f136c21d1a268e1f

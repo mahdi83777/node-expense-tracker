@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 require('dotenv').config();  // Load .env variable
+=======
+require('dotenv').config();  // Load .env variables
+>>>>>>> 29a7ee963a042238c4946aa5f136c21d1a268e1f
 
 const express = require("express");
 const mongoose = require("mongoose");
